@@ -812,3 +812,6 @@ the compilation window until the top of the error is visible."
 
 (use-package ledger-mode
   :ensure t)
+
+(use-package symbol-overlay
+  :ensure t)
