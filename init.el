@@ -160,10 +160,16 @@
     :branch "main"
     :files ("*.el"))
   :config
-  (setq agenix-auto-encryption-mode t)
-  (define-key agenix-encrypted-mode-map (kbd "C-c a d") 'agenix-decrypt-this-buffer)
+  (define-key agenix-encrypted-mode-map (kbd "C-c a d") 'agenix-decrypt-buffer)
   (add-to-list 'auto-mode-alist '("\\.age" . agenix-encrypted-mode))
-  (define-key agenix-decrypted-mode-map (kbd "C-c a e") 'agenix-encrypt-this-buffer))
+  (define-key agenix-decrypted-mode-map (kbd "C-c a e") 'agenix-encrypt-buffer))
+
+(use-package horth-mode
+  :straight
+  ( :host github
+    :repo "t4ccer/horth"
+    :branch "main"
+    :files ("editor/emacs/*.el")))
 
 ;; xref config
 (defun t4/load-xref-map ()
@@ -354,7 +360,9 @@
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-region)
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c m b") `magit-blame))
 
 ;; (use-package forge
 ;;   :requires 'magit)
@@ -426,19 +434,19 @@
 (use-package dhall-mode
   :mode "\\.dhall\\'")
 
-(use-package purescript-mode
-  :config
-  (add-hook 'purescript-mode-hook 'purescript-indentation-mode))
+;; (use-package purescript-mode
+;;   :config
+;;   (add-hook 'purescript-mode-hook 'purescript-indentation-mode))
 
 (use-package haskell-mode
-  :mode ("\\.hs$")
+  :mode ("\\.hs$" "\\.purs$")
   :config)
 
 (use-package lsp-haskell
   :after envrc 
   :config
-  (add-hook 'haskell-mode-hook #'lsp-deferred)
-  (add-hook 'haskell-literate-mode-hook #'lsp-deferred)
+  ;; (add-hook 'haskell-mode-hook #'lsp-deferred)
+  ;; (add-hook 'haskell-literate-mode-hook #'lsp-deferred)
   (setq lsp-haskell-server-path "haskell-language-server"))
 
 ;; (use-package lsp-dart
@@ -499,7 +507,8 @@
 
   (global-set-key (kbd "C-c n f u") 't4/nix-fetchurl)
   (global-set-key (kbd "C-c n f h") 't4/nix-fetchFromGitHub)
-  (add-hook 'nix-mode-hook 'lsp-mode))
+  ;; (add-hook 'nix-mode-hook 'lsp-mode)
+  (copilot-mode 0))
 
 
 (use-package yaml-mode)
@@ -716,7 +725,9 @@
   (define-key copilot-completion-map (kbd "<backtab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-c a n") 'copilot-next-completion)
   (define-key copilot-completion-map (kbd "C-c a p") 'copilot-next-completion)
-  (add-hook 'prog-mode-hook 'copilot-mode))
+  (add-hook 'prog-mode-hook 'copilot-mode)
+  (add-hook 'nix-mode-hook (lambda () (copilot-mode 0))))
+
 
 ;;; Rust
 
@@ -815,3 +826,17 @@ the compilation window until the top of the error is visible."
 
 (use-package symbol-overlay
   :ensure t)
+
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
+
+(use-package wakatime-mode
+  :ensure t
+  :config
+  (global-wakatime-mode))
+
+(use-package protobuf-mode
+  :ensure t)
+
