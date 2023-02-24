@@ -485,6 +485,7 @@
                ))
       (indent-region start-position (line-end-position))
       (goto-char start-position)))
+  (global-set-key (kbd "C-c n f u") 't4/nix-fetchurl)
 
   (defun t4/nix-fetchFromGitHub ()
     (interactive)
@@ -504,12 +505,25 @@
                ))
       (indent-region start-position (line-end-position))
       (goto-char start-position)))
-
-  (global-set-key (kbd "C-c n f u") 't4/nix-fetchurl)
   (global-set-key (kbd "C-c n f h") 't4/nix-fetchFromGitHub)
+  
   ;; (add-hook 'nix-mode-hook 'lsp-mode)
   (copilot-mode 0))
 
+(defun t4/nix-bump-flake-input ()
+  (interactive)
+  (let* ((root-path (projectile-project-root))
+         (flake-file (concat root-path "flake.nix"))
+         (inputs-string (shell-command-to-string
+                         (concat
+                          "nix-instantiate --eval --json -E '"
+                          "builtins.concatStringsSep \" \" (builtins.attrNames (import "
+                          flake-file
+                          ").inputs)'")))
+         (inputs-list (split-string (nth 1 (split-string inputs-string "\"")) " "))
+         (input-to-bump (completing-read "Input to bump: " inputs-list)))
+    (shell-command (concat "nix flake lock --update-input " input-to-bump))))
+(global-set-key (kbd "C-c n b") 't4/nix-bump-flake-input)
 
 (use-package yaml-mode)
 
@@ -853,7 +867,6 @@ the compilation window until the top of the error is visible."
              (make-directory user-dir :parents)
              (find-file repo-dir)
              (magit-clone-regular clean-url repo-dir (transient-args 'magit-clone))
-             (projectile-discover-projects-in-search-path)
-             (revert-buffer)))
+             (projectile-discover-projects-in-search-path)))
           ((error "Could not parse URL")))))
 (global-set-key (kbd "C-c g c") 't4/clone-repo)
