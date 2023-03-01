@@ -158,11 +158,7 @@
   ( :host github
     :repo "t4ccer/agenix.el"
     :branch "main"
-    :files ("*.el"))
-  :config
-  (define-key agenix-encrypted-mode-map (kbd "C-c a d") 'agenix-decrypt-buffer)
-  (add-to-list 'auto-mode-alist '("\\.age" . agenix-encrypted-mode))
-  (define-key agenix-decrypted-mode-map (kbd "C-c a e") 'agenix-encrypt-buffer))
+    :files ("*.el")))
 
 (use-package horth-mode
   :straight
@@ -358,6 +354,12 @@
 
 ;;; elisp emacs lisp
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-region)
+
+(use-package paredit
+  :ensure t
+  :hook
+  (emacs-lisp-mode . paredit-mode)
+  (racket-mode . paredit-mode))
 
 (use-package magit
   :ensure t
@@ -870,3 +872,10 @@ the compilation window until the top of the error is visible."
              (projectile-discover-projects-in-search-path)))
           ((error "Could not parse URL")))))
 (global-set-key (kbd "C-c g c") 't4/clone-repo)
+
+(use-package racket-mode
+  :ensure t
+  :config
+  (add-hook 'racket-mode-hook
+            (lambda ()
+              (define-key racket-mode-map (kbd "C-c C-c") 'racket-run))))
