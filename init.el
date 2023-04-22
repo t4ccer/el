@@ -9,13 +9,14 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-;; theme is loaded early to minimalize light theme time
+;; NOTE: theme is loaded early to minimalize light theme time
 (t4/load-file "theme.el")
 
-;; org is loaded early to override the default version
+;; NOTE: org is loaded early to override the default version
 (t4/load-file "org.el")
 
-(setq-default indent-tabs-mode nil)
+(setq indent-tabs-mode nil)
+(setq standard-indent 2)
 
 (setq mouse-wheel-progressive-speed nil)
 (setq ring-bell-function 'ignore)
@@ -36,16 +37,7 @@
 (use-package ace-jump-mode
   :ensure t
   :config
-  (define-key global-map (kbd "C-c j") 'ace-jump-mode)
-  )
-
-(use-package agenix
-  :ensure t
-  :straight
-  ( :host github
-    :repo "t4ccer/agenix.el"
-    :branch "main"
-    :files ("*.el")))
+  (define-key global-map (kbd "C-c j") 'ace-jump-mode))
 
 (use-package horth-mode
   :ensure t
@@ -87,18 +79,6 @@
   :config
   (counsel-mode))
 
-;; TODO: Make it async
-(use-package envrc
-  :ensure t
-  :config
-  (envrc-global-mode)
-  ;; Fix for not applying envrc correctly
-  (add-hook 'eshell-directory-change-hook (lambda () (progn (envrc-mode) (envrc-mode)))))
-
-(use-package auctex
-  :ensure t
-  :defer t)
-
 (use-package visual-fill-column
   :ensure t
   :hook (org-mode . t4/org-mode-visual-fill))
@@ -112,51 +92,6 @@
 (use-package sage-shell-mode
   :ensure t)
 
-(defvar disable-tramp-backups '(all))
-
-(eval-after-load "tramp"
-  '(progn
-     ;; Modified from https://www.gnu.org/software/emacs/manual/html_node/tramp/Auto_002dsave-and-Backup.html
-     (setq backup-enable-predicate
-           (lambda (name)
-             (and (normal-backup-enable-predicate name)
-              ;; Disable all tramp backups
-              (and disable-tramp-backups
-                   (member 'all disable-tramp-backups)
-                   (not (file-remote-p name 'method)))
-              (not ;; disable backup for tramp with the listed methods
-               (let ((method (file-remote-p name 'method)))
-                 (when (stringp method)
-                   (member method disable-tramp-backups)))))))
-
-     (defun tramp-set-auto-save--check (original)
-       (if (funcall backup-enable-predicate (buffer-file-name))
-           (funcall original)
-         (auto-save-mode -1)))
-
-     (advice-add 'tramp-set-auto-save :around #'tramp-set-auto-save--check)
-
-     ;; Use my ~/.ssh/config control master settings according to https://puppet.com/blog/speed-up-ssh-by-reusing-connections
-     (setq tramp-default-method "ssh")
-     (setq tramp-ssh-controlmaster-options "")))
-
-(use-package projectile
-  :ensure t
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (setq projectile-project-search-path
-        '( ("~/repos/" . 3)
-           "~/.config/"))
-  (setq projectile-switch-project-action #'projectile-dired)
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-mode-line "Projectile")
-  (projectile-mode))
-
-(use-package project
-  :ensure t
-  :config
-  (setq project-switch-commands t))
-
 ;; TODO: Replace it
 (use-package rg
   :ensure t
@@ -164,69 +99,9 @@
 
 (global-eldoc-mode 1)
 
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :after envrc-mode
-  :config
-  (setq lsp-enable-snippet nil)
-  (setq lsp-keymap-prefix "C-c l")
-  (lsp-enable-which-key-integration t))
-
-(use-package lsp-ui
-  :ensure t
-  :config
-  (setq-local eldoc-documentation-function #'ignore)
-  (setq lsp-lens-enable nil)
-  (setq lsp-ui-doc-enable nil)
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-ui-doc-max-height 10)
-  (setq lsp-ui-sideline-enable t)
-  (setq lsp-ui-doc-position 'at-point))
-
-(use-package company
-  :ensure t
-  :hook
-  (org-mode . company-mode)
-  (lsp-mode . company-mode)
-  (haskell-mode . company-mode)
-  (emacs-lisp-mode . company-mode)
-  :config
-  (setq company-minimum-prefix-length 3)
-  (define-key company-active-map (kbd "C-n") 'company-select-next)
-  (define-key company-active-map (kbd "C-p") 'company-select-previous)
-  (define-key company-active-map (kbd "<return>") 'company-complete-selection)
-  (define-key company-active-map (kbd "RET") 'company-complete-selection)
-  (define-key company-active-map [tab] 'company-complete-selection)
-  (define-key company-active-map (kbd "TAB") 'company-complete-selection)
-
-  (define-key company-search-map (kbd "<return>") 'company-complete-selection)
-  (define-key company-search-map (kbd "RET") 'company-complete-selection)
-  (define-key company-search-map (kbd "C-n") 'company-select-next)
-  (define-key company-search-map (kbd "C-p") 'company-select-previous)
-    
-  (use-package company-ctags
-    :ensure t
-    :config
-    (global-set-key (kbd "M-?") 'company-ctags)))
-
 (use-package dhall-mode
   :ensure t
   :mode "\\.dhall\\'")
-
-(use-package haskell-mode
-  :ensure t
-  :mode ("\\.hs$" "\\.lhs$"))
-
-(use-package lsp-haskell
-  :ensure t
-  :after envrc 
-  :config
-  (add-hook 'haskell-mode-hook #'lsp-deferred)
-  (add-hook 'haskell-literate-mode-hook #'lsp-deferred)
-  (setq lsp-haskell-server-path "haskell-language-server"))
-
-;;; Nix
 
 (use-package yaml-mode
   :ensure t)
@@ -244,10 +119,6 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.v\\'" . coq-mode))
   (add-hook 'coq-mode-hook #'company-coq-mode))
-
-
-(use-package typescript-mode
-  :ensure t)
 
 (use-package posframe
   :ensure t)
@@ -280,47 +151,21 @@
 
 (define-key grep-mode-map (kbd "C-c C-o") 'find-file-at-point)
 
-;;; todo highlighting
-(use-package hl-todo
-  :ensure t
-  :config
-    (setq hl-todo-keyword-faces
-          `(("TODO"  warning bold)
-            ("NOTE"  warning bold)
-            ("FIXME" error bold)
-            ("HACK"  error bold)))
-    (define-key hl-todo-mode-map (kbd "C-c t p") 'hl-todo-previous)
-    (define-key hl-todo-mode-map (kbd "C-c t n") 'hl-todo-next)
-    (define-key hl-todo-mode-map (kbd "C-c t o") 'hl-todo-occur)
-    (define-key hl-todo-mode-map (kbd "C-c t i") 'hl-todo-insert)
-  :hook ((prog-mode . hl-todo-mode)))
-
-(use-package csv-mode
-  :ensure t
-  :config
-  (add-hook 'csv-mode-hook 'csv-align-mode))
-
 (use-package elm-mode
   :ensure t)
 
-(use-package tree-sitter
-  :ensure t)
-
-(use-package tree-sitter-langs
-  :ensure t)
-
-(use-package copilot
-  :ensure t
-  :straight (copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :config
-  (setq copilot-node-executable "copilot-node")
-  (define-key copilot-completion-map (kbd "<backtab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "C-c a n") 'copilot-next-completion)
-  (define-key copilot-completion-map (kbd "C-c a p") 'copilot-next-completion)
-  (add-hook 'prog-mode-hook 'copilot-mode)
-  ;; nixpkgs lags with copilot
-  ;; TODO: Disable on in nixpkgs repo
-  (add-hook 'nix-mode-hook (lambda () (copilot-mode 0))))
+;; (use-package copilot
+;;   :ensure t
+;;   :straight (copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+;;   :config
+;;   (setq copilot-node-executable "copilot-node")
+;;   (define-key copilot-completion-map (kbd "<backtab>") 'copilot-accept-completion)
+;;   (define-key copilot-completion-map (kbd "C-c a n") 'copilot-next-completion)
+;;   (define-key copilot-completion-map (kbd "C-c a p") 'copilot-next-completion)
+;;   (add-hook 'prog-mode-hook 'copilot-mode)
+;;   ;; nixpkgs lags with copilot
+;;   ;; TODO: Disable on in nixpkgs repo
+;;   (add-hook 'nix-mode-hook (lambda () (copilot-mode 0))))
 
 (use-package restclient
   :ensure t)
@@ -331,29 +176,37 @@
 (use-package symbol-overlay
   :ensure t)
 
-(use-package web-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
-
-(use-package wakatime-mode
-  :ensure t
-  :config
-  (global-wakatime-mode))
+;; (use-package wakatime-mode
+;;   :ensure t
+;;   :config
+;;   (global-wakatime-mode))
 
 (use-package protobuf-mode
   :ensure t)
 
-(use-package cc-mode
-  :ensure t
-  :config
-  (add-hook 'c-mode-hook #'lsp-deferred)
-  (add-hook 'c++-mode-hook #'lsp-deferred))
 
+(t4/load-file "projectile.el")
+(t4/load-file "tramp.el")
+(t4/load-file "lsp.el")
+(t4/load-file "haskell.el")
+(t4/load-file "polymode.el")
+(t4/load-file "typescript.el")
+(t4/load-file "purescript.el")
+(t4/load-file "company.el")
 (t4/load-file "lisps.el")
 (t4/load-file "rust.el")
 (t4/load-file "nix.el")
 (t4/load-file "compilation-mode.el")
 (t4/load-file "git.el")
-(t4/load-file "purescript.el")
+(t4/load-file "llvm.el")
+(t4/load-file "cgsuite.el")
+(t4/load-file "scala.el")
+(t4/load-file "unison.el")
+(t4/load-file "tree-sitter.el")
+(t4/load-file "agenix.el")
+(t4/load-file "todo.el")
+(t4/load-file "csv.el")
+(t4/load-file "latex.el")
 
+;; NOTE: Keep it at the end
+(t4/load-file "envrc.el")

@@ -21,3 +21,21 @@
   (ansi-color-apply-on-region (point-min) (point-max))))
 
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(defun t4/compile-buffer (cmd)
+  "Compile current buffer with given command"
+  (compile (concat cmd " " (buffer-file-name))))
+
+(defun t4/compile-org ()
+  "Compile current buffer with org2pdf."
+  (interactive)
+  (t4/compile-buffer "nix run -L github:t4ccer/nix-org-export"))
+
+(global-set-key (kbd "C-c c o") `t4/compile-org)
+
+(defun t4/compile-tex ()
+  "Compile current buffer with pdflatex"
+  (interactive)
+  (t4/compile-buffer "pdflatex"))
+
+(global-set-key (kbd "C-c c t") `t4/compile-tex)

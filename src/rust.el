@@ -85,3 +85,19 @@ the compilation window until the top of the error is visible."
                     (cons 'cargo cargo-compilation-regexps))
        (add-to-list 'compilation-error-regexp-alist 'cargo)
        (add-hook 'next-error-hook #'rustc-scroll-down-after-next-error))))
+
+;; (define-hostmode poly-rust-hostmode
+;;   :mode 'rustic-mode)
+
+;; (define-innermode poly-rust-html!-innermode
+;;   :mode 'html-mode
+;;   :head-matcher "html! {\n"
+;;   :tail-matcher "^[\t]*}\n"
+;;   :head-mode 'host
+;;   :tail-mode 'host)
+
+;; (define-polymode poly-rust-mode
+;;   :hostmode 'poly-rust-hostmode
+;;   :innermodes '(poly-rust-html!-innermode))
+
+;; (add-hook 'rustic-mode 'poly-rust-mode)

@@ -5,6 +5,13 @@
   :config
   (global-set-key (kbd "C-c m b") `magit-blame))
 
+;; FIXME: Diff color theme is not respected 
+;; (use-package magit-delta
+;;   :ensure t
+;;   ;; :hook (magit-mode . magit-delta-mode)
+;;   :custom
+;;   (magit-delta-delta-args '("--true-color" "never" "--color-only" "--dark")))
+
 ;; FIXME
 ;; (use-package forge
 ;;   :ensure t

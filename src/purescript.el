@@ -1,28 +1,25 @@
 ;;; -*- lexical-binding: t -*-
 
-;; FIXME: purescript-mode has broken brackets parsing, using haskell-mode instead
+;; FIXME: purescript-mode is just broken, brackets parsing is broken,
+;; indentation is just bad in all 3 modes, using haskell-mode instead
+;; with a bit of customisation
 
 ;; (use-package purescript-mode
 ;;   :ensure t
-;;   :config
-;;   (add-hook 'purescript-mode-hook 'purescript-indentation-mode))
+;;   :hook
+;;   (purescript-mode . purescript-indent-mode))
 
-(define-derived-mode purescript-hs-mode haskell-mode "purescript-hs"
+(define-derived-mode purescript-mode haskell-mode "purescript-hs"
   "haskell-mode pretending to be purescript-mode"
   (t4/load-xref-map)
+  (haskell-indent-mode)
+  (setq lsp-purescript-formatter "purs-tidy")
+  (envrc-mode 1)
+  (lsp-mode 1))
 
-  (lsp-mode 1)
-  
-  ;; LSP support
-  (let* ((client (gethash 'pursls lsp-clients))
-         (new-modes (append (lsp--client-major-modes client) '(purescript-hs-mode))))
-    (setf (lsp--client-major-modes client) new-modes)
-    (puthash 'pursls client lsp-clients))
-  (setq lsp-purescript-formatter "purs-tidy"))
+(add-to-list 'auto-mode-alist '("\\.purs$" . purescript-mode))
 
 (add-to-list
  'compilation-error-regexp-alist
  '("^\\[[0-9]+/[0-9]+\s[[:alnum:]]+\\]\s+\\(.*?\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
    1 2 3))
-
-(add-to-list 'auto-mode-alist '("\\.purs$" . purescript-hs-mode))
