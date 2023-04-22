@@ -1,5 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 
+(define-prefix-command 't4/nix-global-map)
+(define-prefix-command 't4/nix-templates-map)
+(global-set-key (kbd "C-c n") 't4/nix-global-map)
+
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'"
@@ -24,7 +28,7 @@
                ))
       (indent-region start-position (line-end-position))
       (goto-char start-position)))
-  (global-set-key (kbd "C-c n f u") 't4/nix-fetchurl)
+  (define-key nix-mode-map (kbd "C-c n f u") 't4/nix-fetchurl)
 
   (defun t4/nix-fetchFromGitHub ()
     (interactive)
@@ -45,8 +49,7 @@
       (indent-region start-position (line-end-position))
       (goto-char start-position)))
   ;; (add-hook 'nix-mode-hook 'lsp-mode)
-  (global-set-key (kbd "C-c n f h") 't4/nix-fetchFromGitHub))
-
+  (define-key nix-mode-map (kbd "C-c n f h") 't4/nix-fetchFromGitHub))
 
 ;; M-x nix-flake is really slow, evaluates part of flake which is not needed
 ;; and fails if flake uses IFD
@@ -63,7 +66,7 @@
          (inputs-list (split-string (nth 1 (split-string inputs-string "\"")) " "))
          (input-to-bump (completing-read "Input to bump: " inputs-list)))
     (shell-command (concat "nix flake lock --update-input " input-to-bump))))
-(global-set-key (kbd "C-c n b") 't4/nix-bump-flake-input)
+
 
 (defun t4/nix-template-init (url)
   "run 'nix flake init --refresh -t URL'"
@@ -74,8 +77,6 @@
   "Create a general template in current directory"
   (interactive)
   (t4/nix-template-init "github:t4ccer/t4.nix#general"))
-(global-set-key (kbd "C-c n t g") 't4/nix-template-init-general)
-
 
 (defun t4/nix-template-init-rust-yew ()
   "Create a general template in current directory"
@@ -83,4 +84,12 @@
   (t4/nix-template-init "github:t4ccer/t4.nix#rust-yew")
   (envrc-allow)
   (magit-init default-directory))
-(global-set-key (kbd "C-c n t y") 't4/nix-template-init-rust-yew)
+
+
+;; general
+(define-key t4/nix-global-map (kbd "b") 't4/nix-bump-flake-input)
+(define-key t4/nix-global-map (kbd "t") 't4/nix-templates-map)
+
+;; templates
+(define-key t4/nix-templates-map (kbd "y") 't4/nix-template-init-rust-yew)
+(define-key t4/nix-templates-map (kbd "g") 't4/nix-template-init-general)

@@ -1,9 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 
 (use-package magit
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c m b") `magit-blame))
+  :ensure t)
 
 ;; FIXME: Diff color theme is not respected 
 ;; (use-package magit-delta
@@ -32,4 +30,8 @@
              (projectile-discover-projects-in-search-path)
              (find-file repo-dir)))
           ((error "Could not parse URL")))))
-(global-set-key (kbd "C-c g c") 't4/clone-repo)
+
+(define-prefix-command 't4/magit-map)
+(global-set-key (kbd "C-c g") 't4/magit-map)
+(define-key t4/magit-map (kbd "c") 't4/clone-repo)
+(define-key t4/magit-map (kbd "b") 'magit-blame)

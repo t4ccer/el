@@ -26,14 +26,6 @@
   :config
   (which-key-mode))
 
-(use-package multiple-cursors
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c m m") `mc/edit-lines)
-  (global-set-key (kbd "C-c m n") `mc/mark-next-like-this)
-  (global-set-key (kbd "C-c m p") `mc/mark-previous-like-this))
-
-
 (use-package ace-jump-mode
   :ensure t
   :config
@@ -207,6 +199,7 @@
 (t4/load-file "todo.el")
 (t4/load-file "csv.el")
 (t4/load-file "latex.el")
+(t4/load-file "multiple-cursors.el")
 
 ;; NOTE: Keep it at the end
 (t4/load-file "envrc.el")

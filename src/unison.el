@@ -15,7 +15,7 @@
     (unison-ucm-mode)))
 
 
-(global-set-key (kbd "C-c u u") 't4/start-ucm-terminal)
+;; (global-set-key (kbd "C-c u u") 't4/start-ucm-terminal)
 
 (define-derived-mode unison-ucm-mode comint-mode "unison-ucm"
   ""
