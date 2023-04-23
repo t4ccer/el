@@ -6,6 +6,6 @@
 (use-package multiple-cursors
   :ensure t
   :config
-  (define-key t4/cursors-map (kbd "C-c m m") `mc/edit-lines)
-  (define-key t4/cursors-map (kbd "C-c m n") `mc/mark-next-like-this)
-  (define-key t4/cursors-map (kbd "C-c m p") `mc/mark-previous-like-this))
+  (define-key t4/cursors-map (kbd "m") `mc/edit-lines)
+  (define-key t4/cursors-map (kbd "n") `mc/mark-next-like-this)
+  (define-key t4/cursors-map (kbd "p") `mc/mark-previous-like-this))
