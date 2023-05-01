@@ -63,6 +63,7 @@
   (ivy-use-virtual-buffers t)
   :config
   (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done)
+  (ido-mode -1)
   (ivy-mode))
 
 (use-package counsel
@@ -177,6 +178,7 @@
   :ensure t)
 
 
+;; (t4/load-file "exwm.el")
 (t4/load-file "projectile.el")
 (t4/load-file "tramp.el")
 (t4/load-file "lsp.el")
