@@ -16,6 +16,9 @@
   :hook
   (LaTeX-mode . (lambda () (push (list 'output-pdf "Zathura") TeX-view-program-selection)))
   (LaTeX-mode . turn-on-cdlatex)
-  (LaTeX-mode . hl-todo-mode))
-
+  (LaTeX-mode . hl-todo-mode)
+  :config
+  (setq TeX-command-list (cons TeX-command-list '("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
+  (latex-mode doctex-mode)
+  :help "Run LaTeX"))))
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)

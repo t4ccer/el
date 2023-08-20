@@ -5,6 +5,8 @@
   :config
   (setq typescript-indent-level 2))
 
+(add-hook 'js-mode-hook (lambda () (setq js-indent-level 2)))
+
 (use-package web-mode
   :ensure t
   :config

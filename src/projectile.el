@@ -12,6 +12,9 @@
   (setq projectile-mode-line "Projectile")
   (projectile-mode))
 
+(use-package projectile-variable
+  :ensure t)
+
 (use-package project
   :ensure t
   :config

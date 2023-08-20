@@ -24,6 +24,6 @@
     (setq lsp-headerline-breadcrumb-enable nil)
     (setq lsp-ui-doc-max-height 10)
     (setq lsp-ui-sideline-enable t)
-    (setq lsp-ui-doc-position 'at-point)))
-
-
+    (setq lsp-ui-doc-position 'at-point))
+  (use-package dap-mode
+    :ensure t))

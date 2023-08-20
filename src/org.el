@@ -98,4 +98,11 @@
 
 (add-hook 'org-mode-hook
           (lambda ()
-            (add-hook 'after-save-hook #'org-babel-tangle)))
+            (add-hook 'after-save-hook
+		      (lambda ()
+			(when (eq major-mode 'org-mode) (org-babel-tangle))))))
+
+(use-package toc-org
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook 'toc-org-mode))

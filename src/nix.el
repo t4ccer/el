@@ -48,8 +48,16 @@
                ))
       (indent-region start-position (line-end-position))
       (goto-char start-position)))
-  ;; (add-hook 'nix-mode-hook 'lsp-mode)
+
+  ;; (lsp-register-client
+  ;;  (make-lsp-client
+  ;;   :new-connection (lsp-stdio-connection "nixd")
+  ;;   :major-modes '(nix-mode)
+  ;;   :server-id 'nixd))
+    
   (define-key nix-mode-map (kbd "C-c n f h") 't4/nix-fetchFromGitHub))
+
+;; (add-hook 'nix-mode-hook 'lsp-mode)
 
 ;; M-x nix-flake is really slow, evaluates part of flake which is not needed
 ;; and fails if flake uses IFD
@@ -79,12 +87,18 @@
   (t4/nix-template-init "github:t4ccer/t4.nix#general"))
 
 (defun t4/nix-template-init-rust-yew ()
-  "Create a general template in current directory"
+  "Create a rust + yew template in current directory"
   (interactive)
   (t4/nix-template-init "github:t4ccer/t4.nix#rust-yew")
   (envrc-allow)
   (magit-init default-directory))
 
+(defun t4/nix-template-init-rust ()
+  "Create a rust template in current directory"
+  (interactive)
+  (t4/nix-template-init "github:t4ccer/t4.nix#rust")
+  (envrc-allow)
+  (magit-init default-directory))
 
 ;; general
 (define-key t4/nix-global-map (kbd "b") 't4/nix-bump-flake-input)
@@ -93,3 +107,4 @@
 ;; templates
 (define-key t4/nix-templates-map (kbd "y") 't4/nix-template-init-rust-yew)
 (define-key t4/nix-templates-map (kbd "g") 't4/nix-template-init-general)
+(define-key t4/nix-templates-map (kbd "r") 't4/nix-template-init-rust)

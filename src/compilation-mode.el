@@ -1,5 +1,8 @@
 ;;; -*- lexical-binding: t -*-
 
+(require 'projectile)
+(require 'projectile-variable)
+
 (define-prefix-command 't4/compilation-global-map)
 (global-set-key (kbd "C-c c") 't4/compilation-global-map)
 
@@ -15,6 +18,25 @@
   (ansi-color-apply-on-region (point-min) (point-max))))
 
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; (defun t4/cd-and-compile ()
+;;   (interactive)
+;;   (let* ((comp-buf (generate-new-buffer "*compilation*")))
+;;     (projectile-variable-put "t4/comp-buf" comp-buf)
+;;     (let ((comp-dir (read-directory-name "Compilation directory: "
+;; 					 default-directory default-directory
+;; 					 t))
+;; 	  (comp-cmd (read-string "Compile command: " nil '(compile-history . nil))))
+;;       (switch-to-buffer comp-buf)
+;;       (display-buffer comp-buf '(display-buffer-pop-up-window . nil))
+;;       (cd comp-dir)
+;;       (envrc-mode 1)
+;;       (compilation-mode 1)
+;;       (compilation-start comp-cmd))))
+
+;; (defun t4/recompile ()
+;;   (interactive)
+;;   )
 
 ;; TODO: Write better projectile compilation function to support multiple projects
 (defun t4/cd-and-compile ()

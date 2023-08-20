@@ -8,7 +8,16 @@
                                         ; Envrc support sucks out of the box
   (setq rustic-lsp-server 'nil)
   (setq rustic-lsp-client 'nil)
+  (require 'dap-cpptools)
   (add-hook 'rustic-mode-hook #'lsp-deferred)
+  (add-hook 'rustic-mode-hook (lambda ()
+                                (progn
+				  (setq indent-tabs-mode nil)
+				  (setq standard-indent 2))))
+
+  ;; (add-hook 'before-save-hook
+  ;;           (lambda ()
+  ;;             (when (eq major-mode 'rustic-mode) (untabify (point-min) (point-max)))))
 
                                         ; formatting
   (setq rustic-format-trigger 'on-save)
@@ -17,6 +26,7 @@
                                         ; Fix compilation mode
   (setq rustic-compile 'compile)
   (setq rustic-recompile 'recompile)
+
   (defvar rustc-compilation-location
     (let ((file "\\([^\n]+\\)")
           (start-line "\\([0-9]+\\)")
@@ -101,3 +111,8 @@ the compilation window until the top of the error is visible."
 ;;   :innermodes '(poly-rust-html!-innermode))
 
 ;; (add-hook 'rustic-mode 'poly-rust-mode)
+
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("^\\[\\(.*\\)+:\\([[:digit:]]+\\)].*$"
+;;    1 2))

@@ -9,6 +9,7 @@
         `(("TODO"  warning bold)
           ("NOTE"  warning bold)
           ("FIXME" error bold)
+	  ("todo!" error bold)
           ("HACK"  error bold)))
 
   (define-key hl-todo-mode-map (kbd "C-c t") 't4/todo)

@@ -147,18 +147,19 @@
 (use-package elm-mode
   :ensure t)
 
-;; (use-package copilot
-;;   :ensure t
-;;   :straight (copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-;;   :config
-;;   (setq copilot-node-executable "copilot-node")
-;;   (define-key copilot-completion-map (kbd "<backtab>") 'copilot-accept-completion)
-;;   (define-key copilot-completion-map (kbd "C-c a n") 'copilot-next-completion)
-;;   (define-key copilot-completion-map (kbd "C-c a p") 'copilot-next-completion)
-;;   (add-hook 'prog-mode-hook 'copilot-mode)
-;;   ;; nixpkgs lags with copilot
-;;   ;; TODO: Disable on in nixpkgs repo
-;;   (add-hook 'nix-mode-hook (lambda () (copilot-mode 0))))
+(use-package copilot
+  :ensure t
+  :straight (copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :config
+  (setq copilot-node-executable "copilot-node")
+  (define-key copilot-completion-map (kbd "<backtab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "C-c a n") 'copilot-next-completion)
+  (define-key copilot-completion-map (kbd "C-c a p") 'copilot-next-completion)
+  ;; (add-hook 'prog-mode-hook 'copilot-mode)
+  ;; nixpkgs lags with copilot
+  ;; TODO: Disable on in nixpkgs repo
+  ;; (add-hook 'nix-mode-hook (lambda () (copilot-mode 0)))
+  (add-hook 'haskell-mode 'copilot-mode))
 
 (use-package restclient
   :ensure t)
@@ -177,6 +178,10 @@
 (use-package protobuf-mode
   :ensure t)
 
+(setq image-dired-external-viewer "meh")
+(setq image-dired-cmd-create-thumbnail-program "meh")
+
+(setq auto-revert-verbose nil)
 
 ;; (t4/load-file "exwm.el")
 (t4/load-file "projectile.el")
@@ -187,6 +192,7 @@
 (t4/load-file "typescript.el")
 (t4/load-file "purescript.el")
 (t4/load-file "company.el")
+(t4/load-file "cobol.el")
 (t4/load-file "lisps.el")
 (t4/load-file "rust.el")
 (t4/load-file "nix.el")
@@ -202,6 +208,7 @@
 (t4/load-file "csv.el")
 (t4/load-file "latex.el")
 (t4/load-file "multiple-cursors.el")
+(t4/load-file "markdown.el")
 
 ;; NOTE: Keep it at the end
 (t4/load-file "envrc.el")
