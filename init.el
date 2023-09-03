@@ -178,8 +178,8 @@
 (use-package protobuf-mode
   :ensure t)
 
-(setq image-dired-external-viewer "meh")
-(setq image-dired-cmd-create-thumbnail-program "meh")
+;; (setq image-dired-external-viewer "meh")
+;; (setq image-dired-cmd-create-thumbnail-program "meh")
 
 (setq auto-revert-verbose nil)
 

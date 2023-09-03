@@ -51,7 +51,8 @@
   :ensure t
   :config
   (setq linum-relative-current-symbol "")
-  (add-hook 'prog-mode-hook #'linum-relative-mode))
+  (add-hook 'prog-mode-hook #'linum-relative-mode)
+  (add-hook 'yaml-mode-hook #'linum-relative-mode))
 
 ;; FIXME
 ;; Disable line numbers for some modes

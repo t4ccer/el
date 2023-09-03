@@ -108,3 +108,27 @@
 (define-key t4/nix-templates-map (kbd "y") 't4/nix-template-init-rust-yew)
 (define-key t4/nix-templates-map (kbd "g") 't4/nix-template-init-general)
 (define-key t4/nix-templates-map (kbd "r") 't4/nix-template-init-rust)
+
+(defun t4/current-store-path ()
+  "Get current nix-store path"
+  (with-temp-buffer
+    (shell-command
+     "nix-instantiate --eval -E 'with import <nixpkgs> { }; (lib.cleanSource ./.).outPath' --json"
+     (current-buffer))
+    (json-parse-string (buffer-string))))
+
+(defun t4/replace-curr-store-path ()
+  "Replace nix store path with local file path"
+  (when compilation-filter-start
+    (let* ((curr-store-path (t4/current-store-path))
+	   (curr-store-path-slash
+	    (concat
+	     curr-store-path
+	     (if (equal "/" (substring curr-store-path -1 nil)) "" "/")))
+	   (inhibit-read-only t))
+      (replace-string-in-region
+       curr-store-path-slash
+       default-directory
+       compilation-filter-start (point-max)))))
+
+(add-hook 'compilation-filter-hook 't4/replace-curr-store-path)

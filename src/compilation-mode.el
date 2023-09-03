@@ -63,3 +63,18 @@
 (define-key t4/compilation-global-map (kbd "g") `recompile)
 (define-key t4/compilation-global-map (kbd "o") `t4/compile-org)
 (define-key t4/compilation-global-map (kbd "t") `t4/compile-tex)
+
+
+;;; Nix errors
+;; Handles: at /nix/store/hash-sourcefoo.nix:42:42:
+;; Handles: whose name attribute is located at /nix/store/hash-sourcefoo.nix:42:42
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\s*\\(whose name attribute is located\\)? at \\(?1:[^:]+\\):\\(?2:[[:digit:]]+\\):\\(?3:[[:digit:]]+\\):?"
+   1 2 3))
+
+;;; Purescript errors
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\[[0-9]+/[0-9]+\s[[:alnum:]]+\\]\s+\\(.*?\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
+   1 2 3))

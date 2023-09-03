@@ -18,8 +18,3 @@
   (lsp-mode 1))
 
 (add-to-list 'auto-mode-alist '("\\.purs$" . purescript-mode))
-
-(add-to-list
- 'compilation-error-regexp-alist
- '("^\\[[0-9]+/[0-9]+\s[[:alnum:]]+\\]\s+\\(.*?\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
-   1 2 3))

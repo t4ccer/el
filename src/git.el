@@ -1,8 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 
 (use-package magit
-  :ensure t)
-
+  :ensure t
+  :config
+  (setq magit-diff-refine-hunk 'all))
 ;; FIXME: Diff color theme is not respected 
 ;; (use-package magit-delta
 ;;   :ensure t
@@ -35,11 +36,3 @@
 (global-set-key (kbd "C-c g") 't4/magit-map)
 (define-key t4/magit-map (kbd "c") 't4/clone-repo)
 (define-key t4/magit-map (kbd "b") 'magit-blame)
-
-(defun t4/color-diff ()
-  (interactive)
-  (require 'vc)
-  (diff--iterate-hunks (point-max)
-		       (lambda (beg end) (diff--refine-hunk beg end))))
-
-(define-key t4/magit-map (kbd "d") 't4/color-diff)
