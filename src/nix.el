@@ -14,7 +14,7 @@
       (goto-char (point-min))
       (next-line)
       (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
-    
+
   (defun t4/nix-fetchurl ()
     (interactive)
     (let* ((start-position (point))
@@ -54,7 +54,7 @@
   ;;   :new-connection (lsp-stdio-connection "nixd")
   ;;   :major-modes '(nix-mode)
   ;;   :server-id 'nixd))
-    
+
   (define-key nix-mode-map (kbd "C-c n f h") 't4/nix-fetchFromGitHub))
 
 ;; (add-hook 'nix-mode-hook 'lsp-mode)
@@ -109,26 +109,39 @@
 (define-key t4/nix-templates-map (kbd "g") 't4/nix-template-init-general)
 (define-key t4/nix-templates-map (kbd "r") 't4/nix-template-init-rust)
 
-(defun t4/current-store-path ()
+(defun t4/store-path (dir)
   "Get current nix-store path"
-  (with-temp-buffer
-    (shell-command
-     "nix-instantiate --eval -E 'with import <nixpkgs> { }; (lib.cleanSource ./.).outPath' --json"
-     (current-buffer))
-    (json-parse-string (buffer-string))))
+  (with-existing-directory
+    dir
+    (with-temp-buffer
+      (shell-command
+       "nix-instantiate --eval -E 'with import <nixpkgs> { }; (lib.cleanSource ./.).outPath' --json"
+       (current-buffer))
+      (json-parse-string (buffer-string)))))
+
+(defun t4/parent-directory (dir)
+  (unless (equal "/" dir)
+    (file-name-directory (directory-file-name dir))))
+
+(defun t4/get-flake-dir (dir)
+  "`dir' must have trailing slash"
+  (when dir
+    (if (file-exists-p (concat dir "flake.nix")) dir
+      (t4/has-flake (t4/parent-directory dir)))))
+
+(defun t4/add-trailing-slash (path)
+  (concat path (if (equal "/" (substring path -1 nil)) "" "/")))
 
 (defun t4/replace-curr-store-path ()
   "Replace nix store path with local file path"
-  (when compilation-filter-start
-    (let* ((curr-store-path (t4/current-store-path))
-	   (curr-store-path-slash
-	    (concat
-	     curr-store-path
-	     (if (equal "/" (substring curr-store-path -1 nil)) "" "/")))
-	   (inhibit-read-only t))
-      (replace-string-in-region
-       curr-store-path-slash
-       default-directory
-       compilation-filter-start (point-max)))))
+  (let ((flake-dir (t4/get-flake-dir (t4/add-trailing-slash default-directory))))
+    (when (and compilation-filter-start flake-dir)
+      (let* ((store-path (t4/store-path flake-dir))
+             (inhibit-read-only t))
+        (replace-string-in-region
+         (t4/add-trailing-slash store-path)
+         (t4/add-trailing-slash default-directory)
+         compilation-filter-start
+         (point-max))))))
 
 (add-hook 'compilation-filter-hook 't4/replace-curr-store-path)

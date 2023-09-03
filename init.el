@@ -16,6 +16,7 @@
 (t4/load-file "org.el")
 
 (setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 (setq standard-indent 2)
 
 (setq mouse-wheel-progressive-speed nil)
@@ -134,10 +135,10 @@
     :config
     (defun my-ac-latex-mode () ; add ac-sources for latex
       (setq ac-sources
-         (append '(ac-source-math-unicode
-           ac-source-math-latex
-           ac-source-latex-commands)
-                 ac-sources)))
+            (append '(ac-source-math-unicode
+                      ac-source-math-latex
+                      ac-source-latex-commands)
+                    ac-sources)))
     (add-hook 'LaTeX-mode-hook 'my-ac-latex-mode)
     (setq ac-math-unicode-in-math-p t)
     (ac-flyspell-workaround))) ; fixes a known bug of delay due to flyspell (if it is there)
