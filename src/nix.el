@@ -110,38 +110,54 @@
 (define-key t4/nix-templates-map (kbd "r") 't4/nix-template-init-rust)
 
 (defun t4/store-path (dir)
-  "Get current nix-store path"
+  "Get current nix-store path, handles only git repos and no VC cases."
   (with-existing-directory
     dir
     (with-temp-buffer
-      (shell-command
-       "nix-instantiate --eval -E 'with import <nixpkgs> { }; (lib.cleanSource ./.).outPath' --json"
-       (current-buffer))
-      (json-parse-string (buffer-string)))))
+      (let* ((err-buf (generate-new-buffer "*nix-stderr*"))
+             (cmd (if (file-exists-p (concat dir ".git"))
+                      (concat
+                       "nix-instantiate --eval -E '(builtins.fetchTree {type = \"git\"; url = "
+                       (substring dir 0 -1)
+                       ";}).outPath' --json")
+                    (concat
+                     "nix eval --expr '"
+                     (substring dir 0 -1)
+                     "' --raw")))
+             (json-path (shell-command cmd (current-buffer) err-buf)))
+        (kill-buffer err-buf)
+        (json-parse-string (buffer-string))))))
 
 (defun t4/parent-directory (dir)
+  "Get partent directory, return `nil' if reached root"
   (unless (equal "/" dir)
     (file-name-directory (directory-file-name dir))))
 
 (defun t4/get-flake-dir (dir)
-  "`dir' must have trailing slash"
+  "Emulate nix searching up for `flake.nix' file if it doesn't exist.
+Returns directory with flake if found, `nil' otherwise.
+`dir' must have trailing slash"
   (when dir
     (if (file-exists-p (concat dir "flake.nix")) dir
-      (t4/has-flake (t4/parent-directory dir)))))
+      (t4/get-flake-dir (t4/parent-directory dir)))))
 
 (defun t4/add-trailing-slash (path)
+  "Append slash to path if it is missing"
   (concat path (if (equal "/" (substring path -1 nil)) "" "/")))
 
 (defun t4/replace-curr-store-path ()
   "Replace nix store path with local file path"
-  (let ((flake-dir (t4/get-flake-dir (t4/add-trailing-slash default-directory))))
-    (when (and compilation-filter-start flake-dir)
-      (let* ((store-path (t4/store-path flake-dir))
-             (inhibit-read-only t))
-        (replace-string-in-region
-         (t4/add-trailing-slash store-path)
-         (t4/add-trailing-slash default-directory)
-         compilation-filter-start
-         (point-max))))))
+  (when (and compilation-filter-start t4/flake-dir)
+    (let* ((store-path (t4/store-path t4/flake-dir))
+           (inhibit-read-only t))
+      (replace-string-in-region
+       (t4/add-trailing-slash store-path)
+       (t4/add-trailing-slash default-directory)
+       compilation-filter-start
+       (point-max)))))
 
+(defun t4/set-flake-path ()
+  (setq t4/flake-dir (t4/get-flake-dir (t4/add-trailing-slash default-directory))))
+
+(add-hook 'compilation-mode-hook 't4/set-flake-path)
 (add-hook 'compilation-filter-hook 't4/replace-curr-store-path)
