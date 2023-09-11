@@ -181,6 +181,7 @@
 
 ;; (setq image-dired-external-viewer "meh")
 ;; (setq image-dired-cmd-create-thumbnail-program "meh")
+(setq dired-listing-switches "-lah")
 
 (setq auto-revert-verbose nil)
 
@@ -192,6 +193,7 @@
 (t4/load-file "polymode.el")
 (t4/load-file "typescript.el")
 (t4/load-file "purescript.el")
+(t4/load-file "lean4.el")
 (t4/load-file "company.el")
 (t4/load-file "cobol.el")
 (t4/load-file "lisps.el")
@@ -213,3 +215,4 @@
 
 ;; NOTE: Keep it at the end
 (t4/load-file "envrc.el")
+(put 'downcase-region 'disabled nil)
