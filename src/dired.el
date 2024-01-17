@@ -63,3 +63,18 @@
 (define-key t4/dired-logseq-map (kbd "r") `t4/dired-to-logseq)
 (define-key t4/dired-logseq-map (kbd "b") `t4/dired-to-logseq-book)
 
+(defun t4/dired-compress-zip ()
+  (let* ((fp (dired-get-filename))
+         (out (concat (file-name-base fp) ".zip"))
+         (res (dired-shell-command (format "zip -r %s %s" out fp))))
+    (if (eql res 0)
+        nil
+      fp)))
+
+(defun t4/dired-do-compress-zip (&optional arg)
+  "Like `dired-do-compress' but create .zip archive rather than .tar.gz"
+  (interactive "P")
+  (dired-map-over-marks-check #'t4/dired-compress-zip arg 'compress-zip t)
+  (revert-buffer))
+
+(define-key dired-mode-map (kbd "z") #'t4/dired-do-compress-zip)
