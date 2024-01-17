@@ -19,6 +19,12 @@
 (setq-default indent-tabs-mode nil)
 (setq standard-indent 2)
 
+(add-hook 'python-mode-hook
+          (lambda ()
+            (progn
+	      (setq indent-tabs-mode nil)
+	      (setq standard-indent 4))))
+
 (setq mouse-wheel-progressive-speed nil)
 (setq ring-bell-function 'ignore)
 
@@ -150,23 +156,23 @@
 
 (use-package copilot
   :ensure t
-  :straight (copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
   :config
   (setq copilot-node-executable "copilot-node")
   (define-key copilot-completion-map (kbd "<backtab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-c a n") 'copilot-next-completion)
   (define-key copilot-completion-map (kbd "C-c a p") 'copilot-next-completion)
-  ;; (add-hook 'prog-mode-hook 'copilot-mode)
-  ;; nixpkgs lags with copilot
-  ;; TODO: Disable on in nixpkgs repo
-  ;; (add-hook 'nix-mode-hook (lambda () (copilot-mode 0)))
-  (add-hook 'haskell-mode 'copilot-mode))
+  (add-to-list 'copilot-major-mode-alist '("latex-mode" . "latex"))
+  (add-hook 'prog-mode-hook 'copilot-mode)
+  (add-hook 'latex-mode-hook 'copilot-mode))
 
 (use-package restclient
   :ensure t)
 
 (use-package ledger-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq ledger-report-use-native-highlighting t))
 
 (use-package symbol-overlay
   :ensure t)
@@ -184,6 +190,21 @@
 (setq dired-listing-switches "-lah")
 
 (setq auto-revert-verbose nil)
+
+(defun t4/new-repo ()
+    "Create new directory & repository"
+    (interactive)
+    (let* ((repo-name (read-string "Name: "))
+           (dir (concat "~/repos/github/t4ccer/" repo-name)))
+      (dired-create-directory dir)
+      (dired dir)
+      (magit-init dir)))
+
+(use-package fasm-mode
+  :ensure t
+  :straight (:host github :repo "the-little-language-designer/fasm-mode"))
+
+(add-to-list 'auto-mode-alist '("\\.psql\\'" . sql-mode))
 
 ;; (t4/load-file "exwm.el")
 (t4/load-file "projectile.el")
@@ -212,7 +233,12 @@
 (t4/load-file "latex.el")
 (t4/load-file "multiple-cursors.el")
 (t4/load-file "markdown.el")
+(t4/load-file "dired.el")
+(t4/load-file "lambda-buffers.el")
 
 ;; NOTE: Keep it at the end
 (t4/load-file "envrc.el")
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+(global-set-key (kbd "C-c d r") `t4/new-repo)

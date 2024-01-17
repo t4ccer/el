@@ -19,6 +19,11 @@
 
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+(defun t4/set-compilation-env ()
+ (add-to-list 'compilation-environment "CARGO_TERM_COLOR=always"))
+
+(add-hook 'compilation-mode-hook 't4/set-compilation-env)
+
 ;; (defun t4/cd-and-compile ()
 ;;   (interactive)
 ;;   (let* ((comp-buf (generate-new-buffer "*compilation*")))
@@ -78,3 +83,15 @@
  'compilation-error-regexp-alist
  '("^\\[[0-9]+/[0-9]+\s[[:alnum:]]+\\]\s+\\(.*?\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
    1 2 3))
+
+;; llvm llc
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("llc: error: llc: \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\):"
+   1 2 3))
+
+;; haskell's 'bound at' locations
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("\s*(bound at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\))"
+   1 2 3 0))
