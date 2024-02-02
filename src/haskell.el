@@ -2,7 +2,7 @@
 
 (use-package haskell-mode
   :ensure t
-  :mode ("\\.hs$" "\\.lhs$"))
+  :mode ("\\.hs$" "\\.lhs$" "\\.hs-boot$"))
 
 (use-package lsp-haskell
   :ensure t
