@@ -84,6 +84,11 @@
  '("^\\[[0-9]+/[0-9]+\s[[:alnum:]]+\\]\s+\\(.*?\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
    1 2 3))
 
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\) - \\([[:digit:]]+\\):\\([[:digit:]]+\\)"
+   1 (2 . 4) (3 . 5)))
+
 ;; llvm llc
 (add-to-list
  'compilation-error-regexp-alist
