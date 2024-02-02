@@ -204,7 +204,17 @@
   :ensure t
   :straight (:host github :repo "the-little-language-designer/fasm-mode"))
 
+(use-package string-inflection
+  :ensure t)
+
 (add-to-list 'auto-mode-alist '("\\.psql\\'" . sql-mode))
+
+(use-package aiken-mode
+  :ensure t
+  :straight
+  ( :host github
+    :repo "aiken-lang/aiken-mode"
+    :branch "master"))
 
 ;; (t4/load-file "exwm.el")
 (t4/load-file "projectile.el")
