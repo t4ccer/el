@@ -52,6 +52,10 @@
   (local-set-key (kbd "C-c x d") 'xref-find-definitions)
   (local-set-key (kbd "C-c x r") 'xref-find-references)
   (local-set-key (kbd "C-c x p") 'xref-go-back))
+(defun t4/etags-c ()
+  (interactive)
+  (shell-command "etags $(fd -ag '*.{c,h,cpp,hpp}')")
+  (visit-tags-table "TAGS"))
 
 ;; Starts separate eshell each time, instead of reusing existing one
 (defun t4/eshell-new()
@@ -208,6 +212,8 @@
   :ensure t)
 
 (add-to-list 'auto-mode-alist '("\\.psql\\'" . sql-mode))
+
+(add-to-list 'auto-mode-alist '("\\.golden\\'" . compilation-mode))
 
 (use-package aiken-mode
   :ensure t
