@@ -20,7 +20,7 @@
         file
         (replace-regexp-in-string
          "-+" "-"
-         (replace-regexp-in-string "[[:space:]]+" "-" (downcase file)))
+         (replace-regexp-in-string "_+" "-" (replace-regexp-in-string "[[:space:]]+" "-" (downcase file))))
         nil))
      (revert-buffer))))
 
@@ -38,19 +38,22 @@
 
 (setq t4/logseq-base "/home/t4ccer/logseq-zettelkasten")
 
-(defun t4/dired-to-logseq-book (&optional arg file-list)
-  (interactive
-   (let ((files (dired-get-marked-files t current-prefix-arg nil nil t)))
-     (let ((dired-dwim-target (lambda () (list (concat t4/logseq-base "/assets")))))
-       (dired-do-rename))
-     (revert-buffer)
-     (dolist (file files)
-       (let ((entry-file (concat t4/logseq-base "/pages/books___" (file-name-base file) ".md")))
-         (write-region "type:: book\n" nil entry-file 'append)
-         (write-region (concat "file:: ![" file "](../assets/" file ")\n") nil entry-file 'append)
-         (write-region "author:: Author\n" nil entry-file 'append)
-         (write-region "book-title:: Book Title\n" nil entry-file 'append)
-         (write-region "topics:: topics\n\n" nil entry-file 'append))))))
+(defmacro t4/dired-to-logseq-collection (name collection type props)
+  `(defun ,name (&optional arg file-list)
+     (interactive)
+     (let ((files (dired-get-marked-files t current-prefix-arg nil nil t)))
+       (let ((dired-dwim-target (lambda () (list (concat t4/logseq-base "/assets")))))
+         (dired-do-rename))
+       (revert-buffer)
+       (dolist (file files)
+         (let ((entry-file (concat t4/logseq-base "/pages/" ,collection  "___" (file-name-base file) ".md")))
+           (write-region (concat "type:: " ,type "\n") nil entry-file 'append)
+           (write-region (concat "file:: ![" file "](../assets/" file ")\n") nil entry-file 'append)
+           (dolist (prop ,props)
+             (write-region (concat prop ":: " prop "\n") nil entry-file 'append)))))))
+
+(t4/dired-to-logseq-collection t4/dired-to-logseq-book "books" "book" '("author" "book-title" "topics"))
+(t4/dired-to-logseq-collection t4/dired-to-logseq-paper "papers" "paper" '("author" "paper-title" "year" "topics"))
 
 (define-prefix-command 't4/dired-map)
 ;; FIXME: Add only in dired mode
@@ -62,6 +65,7 @@
 (define-key t4/dired-map (kbd "l") `t4/dired-logseq-map)
 (define-key t4/dired-logseq-map (kbd "r") `t4/dired-to-logseq)
 (define-key t4/dired-logseq-map (kbd "b") `t4/dired-to-logseq-book)
+(define-key t4/dired-logseq-map (kbd "p") `t4/dired-to-logseq-paper)
 
 (defun t4/dired-compress-zip ()
   (let* ((fp (dired-get-filename))
