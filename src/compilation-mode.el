@@ -63,6 +63,8 @@
   (interactive)
   (t4/compile-buffer "pdflatex"))
 
+(setq compilation-max-output-line-length 1000000000000)
+
 ;; Keys
 (define-key t4/compilation-global-map (kbd "c") `t4/cd-and-compile)
 (define-key t4/compilation-global-map (kbd "g") `recompile)
@@ -100,3 +102,10 @@
  'compilation-error-regexp-alist
  '("\s*(bound at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\))"
    1 2 3 0))
+
+;; rust panic
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^thread '[^']*' panicked at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
+   1 2 3)
+ t)
