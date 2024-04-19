@@ -158,18 +158,6 @@
 (use-package elm-mode
   :ensure t)
 
-(use-package copilot
-  :ensure t
-  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :config
-  (setq copilot-node-executable "copilot-node")
-  (define-key copilot-completion-map (kbd "<backtab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "C-c a n") 'copilot-next-completion)
-  (define-key copilot-completion-map (kbd "C-c a p") 'copilot-next-completion)
-  (add-to-list 'copilot-major-mode-alist '("latex-mode" . "latex"))
-  (add-hook 'prog-mode-hook 'copilot-mode)
-  (add-hook 'latex-mode-hook 'copilot-mode))
-
 (use-package restclient
   :ensure t)
 
