@@ -76,7 +76,7 @@
                           ").inputs)'")))
          (inputs-list (split-string (nth 1 (split-string inputs-string "\"")) " "))
          (input-to-bump (completing-read "Input to bump: " inputs-list)))
-    (shell-command (concat "nix flake lock --update-input " input-to-bump))))
+    (shell-command (concat "nix flake update " input-to-bump))))
 
 
 (defun t4/nix-template-init (url)
