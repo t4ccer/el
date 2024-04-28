@@ -3,9 +3,7 @@
 ;; Usage:
 ;; 
 ;; <C-c C-c> to compile/view in Zathura
-;; <C-c C-s> for sections
-;; <C-c C-e> for envs
-;; Open PDF in doc-view-mode to get automatic refresh
+;; <C-c {> for envs
 
 (use-package cdlatex
   :ensure t)

@@ -9,6 +9,12 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(defun apply-macro (macro arg-list)
+  (eval
+   `(,macro ,@(loop for arg in arg-list
+                 collect `(quote ,arg)))))
+
+
 ;; NOTE: theme is loaded early to minimalize light theme time
 (t4/load-file "theme.el")
 

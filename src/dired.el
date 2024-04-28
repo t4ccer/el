@@ -55,6 +55,21 @@
 (t4/dired-to-logseq-collection t4/dired-to-logseq-book "books" "book" '("author" "book-title" "topics"))
 (t4/dired-to-logseq-collection t4/dired-to-logseq-paper "papers" "paper" '("author" "paper-title" "year" "topics"))
 
+(defun t4/is-video (fp) ""
+       (apply-macro
+        'or
+        (mapcar (lambda (ext) (s-suffix? ext fp))
+                '("mp4" "m4v"))))
+
+(defun t4/dired-open () ""
+    (interactive)
+    (let ((fp (dired-get-file-for-visit)))
+      (if (t4/is-video fp)
+          (call-process-shell-command (concat "vlc " fp " &") nil 0)
+        (dired--find-possibly-alternative-file fp))))
+
+(define-key dired-mode-map (kbd "RET") 't4/dired-open)
+
 (define-prefix-command 't4/dired-map)
 ;; FIXME: Add only in dired mode
 (global-set-key (kbd "C-c d") 't4/dired-map)
