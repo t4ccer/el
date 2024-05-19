@@ -63,6 +63,11 @@
   (interactive)
   (t4/compile-buffer "pdflatex"))
 
+(defun t4/compile-runhaskell ()
+  "runhaskell"
+  (interactive)
+  (t4/compile-buffer "runhaskell -Wall -Wextra -fforce-recomp"))
+
 (setq compilation-max-output-line-length 1000000000000)
 
 ;; Keys
@@ -70,6 +75,7 @@
 (define-key t4/compilation-global-map (kbd "g") `recompile)
 (define-key t4/compilation-global-map (kbd "o") `t4/compile-org)
 (define-key t4/compilation-global-map (kbd "t") `t4/compile-tex)
+(define-key t4/compilation-global-map (kbd "r") `t4/compile-runhaskell)
 
 
 ;;; Nix errors
