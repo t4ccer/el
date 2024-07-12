@@ -115,3 +115,5 @@
  '("^thread '[^']*' panicked at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
    1 2 3)
  t)
+
+(add-to-list 'auto-mode-alist '("\\.stderr\\'" . compilation-mode))

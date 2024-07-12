@@ -54,7 +54,7 @@
          (kill-new (concat ,collection "/" (file-name-base file)))))))
 
 (t4/dired-to-logseq-collection t4/dired-to-logseq-book "books" "book" '("author" "book-title" "topics"))
-(t4/dired-to-logseq-collection t4/dired-to-logseq-paper "papers" "paper" '("author" "paper-title" "year" "topics"))
+(t4/dired-to-logseq-collection t4/dired-to-logseq-paper "papers" "paper" '("author" "paper-title" "year" "doi" "topics"))
 
 (defun t4/is-video (fp) ""
        (apply-macro

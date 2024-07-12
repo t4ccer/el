@@ -14,4 +14,6 @@
   (setq lsp-haskell-plugin-ghcide-type-lenses-global-on nil)
   (setq lsp-haskell-plugin-class-code-lens-on nil)
   (setq lsp-haskell-plugin-import-lens-code-lens-on nil)
-  (setq lsp-haskell-plugin-import-lens-code-actions-on nil))
+  (setq lsp-haskell-plugin-import-lens-code-actions-on nil)
+  (setq lsp-haskell-plugin-ghcide-type-lenses-config-mode nil)
+  (setq lsp-haskell-plugin-stan-global-on nil))

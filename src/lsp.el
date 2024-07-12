@@ -11,6 +11,8 @@
    (haskell-mode . lsp-deferred))
   :commands (lsp lsp-deferred)
   :config
+  (setq lsp-lens-enable nil)
+  (setq lsp-auto-execute-action nil) ; TODO: Make it 't in modes other than haskell
   (use-package yasnippet
     :ensure t)
   (use-package lsp-ui
@@ -39,4 +41,3 @@
 
 (defalias 'lsp--client-download-server-fn #'t4/nothing)
 (defalias 'lsp-client-download-server-fn #'t4/nothing)
-
