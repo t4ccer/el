@@ -8,8 +8,8 @@
   :ensure t
   :after envrc 
   :config
-  (add-hook 'haskell-mode-hook #'lsp-deferred)
-  (add-hook 'haskell-literate-mode-hook #'lsp-deferred)
+  (add-hook 'haskell-mode-hook #'lsp)
+  (add-hook 'haskell-literate-mode-hook #'lsp)
   (setq lsp-haskell-server-path "haskell-language-server")
   (setq lsp-haskell-plugin-ghcide-type-lenses-global-on nil)
   (setq lsp-haskell-plugin-class-code-lens-on nil)

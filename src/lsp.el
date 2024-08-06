@@ -7,8 +7,7 @@
   (setq lsp-enable-snippet nil)
   :hook
   ((lsp-mode . lsp-enable-which-key-integration)
-   (purescript-mode . lsp-deferred)
-   (haskell-mode . lsp-deferred))
+   (purescript-mode . lsp-deferred))
   :commands (lsp lsp-deferred)
   :config
   (setq lsp-lens-enable nil)
