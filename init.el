@@ -30,6 +30,7 @@
             (progn
 	      (setq indent-tabs-mode nil)
 	      (setq standard-indent 4))))
+(add-to-list 'auto-mode-alist '("poetry\\.lock" . conf-toml-mode))
 
 (setq mouse-wheel-progressive-speed nil)
 (setq ring-bell-function 'ignore)
