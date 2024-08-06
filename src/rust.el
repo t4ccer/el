@@ -89,3 +89,5 @@ the compilation window until the top of the error is visible."
              (cons 'cargo cargo-compilation-regexps))
 (add-to-list 'compilation-error-regexp-alist 'cargo)
 (add-hook 'next-error-hook #'rustc-scroll-down-after-next-error)
+
+(add-to-list 'auto-mode-alist '("Cargo\\.lock" . conf-toml-mode))
