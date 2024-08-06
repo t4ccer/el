@@ -57,10 +57,10 @@
 
   (define-key nix-mode-map (kbd "C-c n f h") 't4/nix-fetchFromGitHub))
 
-(add-hook 'nix-mode-hook (lambda ()
-  (when
-      (> 1000 (count-lines (point-min) (point-max)))
-    (lsp-mode 1))))
+;; (add-hook 'nix-mode-hook (lambda ()
+;;   (when
+;;       (> 1000 (count-lines (point-min) (point-max)))
+;;     (lsp-mode 1))))
 
 ;; M-x nix-flake is really slow, evaluates part of flake which is not needed
 ;; and fails if flake uses IFD
