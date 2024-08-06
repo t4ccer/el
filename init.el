@@ -202,6 +202,7 @@
 (use-package fasm-mode
   :ensure t
   :straight (:host github :repo "the-little-language-designer/fasm-mode"))
+(add-to-list 'auto-mode-alist '("\\.asm\\'" . fasm-mode))
 
 (use-package string-inflection
   :ensure t)
