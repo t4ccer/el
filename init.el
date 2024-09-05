@@ -249,6 +249,7 @@
 (t4/load-file "lambda-buffers.el")
 (t4/load-file "piece.el")
 (t4/load-file "stage0.el")
+(t4/load-file "cmake.el")
 
 ;; NOTE: Keep it at the end
 (t4/load-file "envrc.el")
