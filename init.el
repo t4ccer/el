@@ -218,6 +218,8 @@
     :repo "aiken-lang/aiken-mode"
     :branch "master"))
 
+(add-to-list 'load-path "~/.emacs.d/dynamic-modules")
+
 ;; (t4/load-file "exwm.el")
 (t4/load-file "projectile.el")
 (t4/load-file "compilation-mode.el")
