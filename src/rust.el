@@ -75,19 +75,4 @@ the compilation window until the top of the error is visible."
                  (point))))
           (set-window-start (selected-window) start-of-error))))))
 
-
-(add-to-list 'compilation-error-regexp-alist-alist
-             (cons 'rustc-refs rustc-refs-compilation-regexps))
-(add-to-list 'compilation-error-regexp-alist 'rustc-refs)
-(add-to-list 'compilation-error-regexp-alist-alist
-             (cons 'rustc rustc-compilation-regexps))
-(add-to-list 'compilation-error-regexp-alist 'rustc)
-(add-to-list 'compilation-error-regexp-alist-alist
-             (cons 'rustc-colon rustc-colon-compilation-regexps))
-(add-to-list 'compilation-error-regexp-alist 'rustc-colon)
-(add-to-list 'compilation-error-regexp-alist-alist
-             (cons 'cargo cargo-compilation-regexps))
-(add-to-list 'compilation-error-regexp-alist 'cargo)
-(add-hook 'next-error-hook #'rustc-scroll-down-after-next-error)
-
 (add-to-list 'auto-mode-alist '("Cargo\\.lock" . conf-toml-mode))

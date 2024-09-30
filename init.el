@@ -220,6 +220,7 @@
 
 ;; (t4/load-file "exwm.el")
 (t4/load-file "projectile.el")
+(t4/load-file "compilation-mode.el")
 (t4/load-file "tramp.el")
 (t4/load-file "lsp.el")
 (t4/load-file "haskell.el")
@@ -232,7 +233,6 @@
 (t4/load-file "lisps.el")
 (t4/load-file "rust.el")
 (t4/load-file "nix.el")
-(t4/load-file "compilation-mode.el")
 (t4/load-file "git.el")
 (t4/load-file "llvm.el")
 (t4/load-file "cgsuite.el")

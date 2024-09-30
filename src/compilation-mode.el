@@ -78,42 +78,85 @@
 (define-key t4/compilation-global-map (kbd "r") `t4/compile-runhaskell)
 
 
+(setq compilation-error-regexp-alist nil)
+
 ;;; Nix errors
 ;; Handles: at /nix/store/hash-sourcefoo.nix:42:42:
 ;; Handles: whose name attribute is located at /nix/store/hash-sourcefoo.nix:42:42
-(add-to-list
- 'compilation-error-regexp-alist
- '("^\s*\\(whose name attribute is located\\)? at \\(?1:[^:]+\\):\\(?2:[[:digit:]]+\\):\\(?3:[[:digit:]]+\\):?"
-   1 2 3))
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("^\s*\\(whose name attribute is located\\)? at \\(?1:[^:]+\\):\\(?2:[[:digit:]]+\\):\\(?3:[[:digit:]]+\\):?$"
+;;    1 2 3))
 
 ;;; Purescript errors
-(add-to-list
- 'compilation-error-regexp-alist
- '("^\\[[0-9]+/[0-9]+\s[[:alnum:]]+\\]\s+\\(.*?\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
-   1 2 3))
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("^\\[[0-9]+/[0-9]+\s[[:alnum:]]+\\]\s+\\(.*?\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
+;;    1 2 3))
 
-(add-to-list
- 'compilation-error-regexp-alist
- '("at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\) - \\([[:digit:]]+\\):\\([[:digit:]]+\\)"
-   1 (2 . 4) (3 . 5)))
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\) - \\([[:digit:]]+\\):\\([[:digit:]]+\\)"
+;;    1 (2 . 4) (3 . 5)))
 
 ;; llvm llc
-(add-to-list
- 'compilation-error-regexp-alist
- '("llc: error: llc: \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\):"
-   1 2 3))
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("^llc: error: llc: \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\):"
+;;    1 2 3))
 
-;; haskell's 'bound at' locations
-(add-to-list
- 'compilation-error-regexp-alist
- '("\s*(bound at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\))"
-   1 2 3 0))
+;; ;; haskell's 'bound at' locations
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("^\s*(bound at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\))"
+;;    1 2 3 0))
 
-;; rust panic
+;; ;; rust panic
 (add-to-list
  'compilation-error-regexp-alist
- '("^thread '[^']*' panicked at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
+ '("^thread '[^']*' panicked at \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\):$"
    1 2 3)
  t)
+
+;; GHC (new)
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\([^\s\n:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\): error:$"
+   1 2 3)
+ t)
+
+;; GHC (old)
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\([^\s\n:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\): error: \\[[^\n]+\\]$"
+   1 2 3)
+ t)
+
+;; Rust
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^error[^\n]*\n\s*--> \\([^\s\n:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
+   1 2 3)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^warning[^\n]*\n\s*--> \\([^\s\n:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)$"
+   1 2 3 1)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\([^\s\n:]+\\):\\([[:digit:]]+\\)\\.\\([[:digit:]]+\\)-\\([[:digit:]]+\\)\\.\\([[:digit:]]+\\): error:$"
+   1 (2 . 4) (3 . 5))
+ t)
+
+
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("^\\([^:]+\\):\\([^:]+\\):\\([^:]+\\): error:"
+;;    1 2 3)
+;;  t)
+
 
 (add-to-list 'auto-mode-alist '("\\.stderr\\'" . compilation-mode))
