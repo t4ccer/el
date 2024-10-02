@@ -47,21 +47,7 @@
 	          (get-char-property (point) 'face))))
     (if face (message "(%s (:foreground monokaish-))" face) (message "No face at %d" pos))))
 
-(use-package linum-relative
-  :ensure t
-  :config
-  (setq linum-relative-current-symbol "")
-  (add-hook 'prog-mode-hook #'linum-relative-mode)
-  (add-hook 'yaml-mode-hook #'linum-relative-mode))
-
-;; FIXME
-;; Disable line numbers for some modes
-;; (dolist (mode '(org-mode-hook
-;;                 term-mode-hook
-;;                 shell-mode-hook
-;;                 ivy-mode-hook
-;;                 eshell-mode-hook))
-;;   (add-hook mode (lambda () (linum-relative-mode nil))))
+(setq display-line-numbers 'relative)
 
 (use-package rainbow-delimiters
   :ensure t
