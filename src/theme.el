@@ -47,7 +47,8 @@
 	          (get-char-property (point) 'face))))
     (if face (message "(%s (:foreground monokaish-))" face) (message "No face at %d" pos))))
 
-(setq display-line-numbers 'relative)
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode)
 
 (use-package rainbow-delimiters
   :ensure t
