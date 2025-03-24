@@ -20,7 +20,9 @@
 
                                         ; Fix compilation mode
   (setq rustic-compile 'compile)
-  (setq rustic-recompile 'recompile))
+  (setq rustic-recompile 'recompile)
+
+  (setq electric-pair-inhibit-predicate (lambda () t)))
 
 (defvar rustc-compilation-location
   (let ((file "\\([^\n]+\\)")
