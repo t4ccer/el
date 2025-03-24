@@ -36,3 +36,4 @@
 (global-set-key (kbd "C-c g") 't4/magit-map)
 (define-key t4/magit-map (kbd "c") 't4/clone-repo)
 (define-key t4/magit-map (kbd "b") 'magit-blame)
+(setq magit-log-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
