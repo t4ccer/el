@@ -55,7 +55,7 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(setq-default fill-column 80)
+(setq-default fill-column 100)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 (add-hook 'haskell-mode-hook #'display-fill-column-indicator-mode)
 
