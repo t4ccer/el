@@ -6,8 +6,7 @@
   :ensure t
   :config
   (setq hl-todo-keyword-faces
-        `(("TODO"  warning bold)
-          ("NOTE"  warning bold)
+        `(("TODO"  error bold)
           ("FIXME" error bold)
 	  ("todo!" error bold)
           ("HACK"  error bold)))
