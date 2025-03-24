@@ -140,6 +140,9 @@
   :hook (flymake-mode . flymake-posframe-mode))
 
 
+(use-package exec-path-from-shell
+  :ensure t)
+
 ;; auto-complete setup, sequence is important
 
 (use-package auto-complete
