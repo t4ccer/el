@@ -31,7 +31,16 @@
 (setq font-latex-fontify-script nil)
 (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'LaTeX-mode-hook 'linum-mode)
+(add-hook 'LaTeX-mode-hook (lambda () (define-key TeX-mode-map (kbd "C-M-<return>") 'texpresso-move-to-cursor)))
 
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
-
+(use-package texpresso
+  :ensure t
+  :straight
+  ( :host github
+    :repo "let-def/texpresso"
+    :branch "main"
+    :files ("emacs/*.el"))
+  :config
+  (setq texpresso-follow-edition nil))
