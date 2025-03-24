@@ -118,17 +118,35 @@
    1 2 3)
  t)
 
-;; GHC (new)
+;; GHC (old)
 (add-to-list
  'compilation-error-regexp-alist
  '("^\\([^\s\n:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\): error:$"
    1 2 3)
  t)
 
-;; GHC (old)
+;; GHC (new)
 (add-to-list
  'compilation-error-regexp-alist
  '("^\\([^\s\n:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\): error: \\[[^\n]+\\]$"
+   1 2 3)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\([^\s\n:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\): error:[^\n]*$"
+   1 2 3)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\([^\s\n:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\): warning: \\[[^\n]+\\]$"
+   1 2 3 1)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\(/[^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\): error: .*$"
    1 2 3)
  t)
 
@@ -150,6 +168,60 @@
  '("^\\([^\s\n:]+\\):\\([[:digit:]]+\\)\\.\\([[:digit:]]+\\)-\\([[:digit:]]+\\)\\.\\([[:digit:]]+\\): error:$"
    1 (2 . 4) (3 . 5))
  t)
+
+;; miranda
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^error found near line \\([[:digit:]]+\\) of file \"\\([^\"]+\\)\"$"
+   2 1)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^undeclared typename \"[^\"]+\" \(line\s*\\([[:digit:]]+\\) of \"\\([^\"]+\\)\"\)$"
+   2 1)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("\(line\s*\\([[:digit:]]+\\) of \"\\([^\"]+\\)\"\)[^\n]*$"
+   2 1)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^\\([^:]+\\):\\([^:]+\\): error:[^\n]*$"
+   1 2)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^  File \"\\([^\"]+\\)\", line \\([[:digit:]]+\\)$"
+   1 2)
+ t)
+
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("^CMake Error at \\([^:]+\\):\\([[:digit:]]+\\)[^\n]*$"
+   1 2)
+ t)
+
+
+;; ;; Grep match
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("\\(.*\\):\\([[:digit:]]+\\):[^\n]*$"
+;;    1 2 3)
+;;  t)
+
+;; ;; Grep context
+;; (add-to-list
+;;  'compilation-error-regexp-alist
+;;  '("\\(.*\\)-\\([[:digit:]]+\\)-[^\n]*$"
+;;    1 2 3 1)
+;;  t)
+
 
 
 ;; (add-to-list
