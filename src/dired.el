@@ -60,7 +60,7 @@
        (apply-macro
         'or
         (mapcar (lambda (ext) (s-suffix? ext fp t))
-                '("mp4" "m4v" "mkv" "avi"))))
+                '("mp4" "m4v" "mkv" "avi" "mov"))))
 
 (defun t4/dired-open () ""
     (interactive)
