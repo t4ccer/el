@@ -10,10 +10,7 @@
 
 (use-package auctex
   :ensure t
-  :defer t
   :hook
-  (LaTeX-mode . (lambda () (push (list 'output-pdf "Zathura") TeX-view-program-selection)))
-  (LaTeX-mode . turn-on-cdlatex)
   (LaTeX-mode . hl-todo-mode)
   :config
   (setq tex-fontify-script nil)
@@ -22,15 +19,11 @@
   (setq tex-font-script-display (quote (-0.0 0.0)))
   (setq TeX-fold-mode nil)
   (eval-after-load "tex-mode" '(fset 'tex-font-lock-suscript 'ignore))
-  (eval-after-load "tex-mode" '(fset 'tex-font-lock-subcript 'ignore))
-  (setq TeX-command-list (cons TeX-command-list '("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
-
-                                                  (latex-mode doctex-mode)
-                                                  :help "Run LaTeX"))))
+  (eval-after-load "tex-mode" '(fset 'tex-font-lock-subcript 'ignore)))
 
 (setq font-latex-fontify-script nil)
 (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'LaTeX-mode-hook 'linum-mode)
+(add-hook 'LaTeX-mode-hook (lambda () (push (list 'output-pdf "Zathura") TeX-view-program-selection)))
 (add-hook 'LaTeX-mode-hook (lambda () (define-key TeX-mode-map (kbd "C-M-<return>") 'texpresso-move-to-cursor)))
 
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
