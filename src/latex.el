@@ -6,7 +6,31 @@
 ;; <C-c {> for envs
 
 (use-package cdlatex
-  :ensure t)
+  :ensure t
+  :hook
+  (LaTeX-mode . cdlatex-mode)
+  :config
+  (setq cdlatex-env-alist '(("definition" "\\begin{definition}[?]\\label{def:}
+
+\\end{definition}" nil)
+                            ("theorem" "\\begin{theorem}[?]\\label{thm:}
+
+\\end{theorem}" nil)
+                            ("example" "\\begin{example}
+?
+\\end{example}" nil)
+                            ("tikz" "\\begin{center}
+\\begin{tikzpicture}
+?
+\\end{tikzpicture}
+\\end{center}" nil)
+                            ("scope" "\\begin{scope}[shift={(0,0)}]
+?
+\\end{scope}" nil)
+                            ("frame" "\\begin{frame}\\frametitle{?}
+
+\\end{frame}" nil)
+                            )))
 
 (use-package auctex
   :ensure t
