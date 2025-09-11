@@ -17,6 +17,7 @@
 
   (setq rustic-format-trigger 'on-save)
   (setq rustic-use-rust-save-some-buffers t)
+  (setq rustic-rustfmt-args "")
 
                                         ; Fix compilation mode
   (setq rustic-compile 'compile)
