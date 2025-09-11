@@ -12,6 +12,7 @@
   :config
   (setq lsp-lens-enable nil)
   (setq lsp-auto-execute-action nil) ; TODO: Make it 't in modes other than haskell
+  (setq lsp-file-watch-threshold 10000)
   (use-package yasnippet
     :ensure t)
   (use-package lsp-ui
