@@ -1,12 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 
+(require 'nix-transform)
+
 (define-prefix-command 't4/nix-global-map)
 (define-prefix-command 't4/nix-templates-map)
 (global-set-key (kbd "C-c n") 't4/nix-global-map)
-
-(use-package nix-mode
-  :ensure t
-  :mode "\\.nix\\'")
 
 ;; M-x nix-flake is really slow, evaluates part of flake which is not needed
 ;; and fails if flake uses IFD
@@ -72,23 +70,11 @@
                         (concat
                          "with import <nixpkgs> {}; fetchFromGitHub "
                          attrset))))
-                 (if (zerop result) (user-error "Hash should be empty")
+                 (if (zerop result) (user-error "%s" "Hash should be empty")
                    (progn
-                     (goto-char (point-max))
-                     (move-beginning-of-line nil)
-                     (previous-line 2)
-                     (forward-word 1)
-                     (backward-word 1)
-                     (let ((start-got (point)))
-                       (forward-word 1)
-                       (let ((got (buffer-substring-no-properties start-got (point))))
-                         (if (string-equal got "got")
-                             t
-                           (user-error
-                            "%s"
-                            (concat
-                             "Could not fetch hash: "
-                             (buffer-substring-no-properties (point-min) (point-max)))))))
+                     (goto-char (point-min))
+                     (print (buffer-substring-no-properties (point-min) (point-max)))
+                     (search-forward "got:")
                      (forward-word 1)
                      (backward-word 1)
                      (let ((hash-start (point)))
@@ -116,7 +102,14 @@
            (t (user-error (concat "Unknown fetcher: " fetcher)))))
       (goto-char fetcher-start))))
 
-(define-key nix-mode-map (kbd "C-c n f") 't4/nix-fetch)
+(use-package nix-mode
+  :ensure t
+  :mode "\\.nix\\'"
+  :config
+  ;; (define-key nix-mode-map (kbd "C-c n f") 't4/nix-fetch)
+  ;; (require 'nix-transform)
+  (define-key nix-mode-map (kbd "C-c n f") 'nix-transform-update-fetcher)
+  )
 
 ;; general
 (define-key t4/nix-global-map (kbd "b") 't4/nix-bump-flake-input)
