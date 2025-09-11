@@ -169,6 +169,20 @@
    1 (2 . 4) (3 . 5))
  t)
 
+;; Lean
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("error: \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\):.*$"
+   1 2 3)
+ t)
+
+(add-to-list
+ 'compilation-error-regexp-alist
+ '("warning: \\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\):.*$"
+   1 2 3 1)
+ t)
+
+
 ;; miranda
 (add-to-list
  'compilation-error-regexp-alist
