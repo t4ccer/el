@@ -221,6 +221,8 @@
     :repo "aiken-lang/aiken-mode"
     :branch "master"))
 
+(setq native-comp-async-report-warnings-errors nil)
+
 (add-to-list 'load-path "~/.emacs.d/dynamic-modules")
 
 ;; (t4/load-file "exwm.el")
