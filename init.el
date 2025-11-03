@@ -193,6 +193,8 @@
 
 (setq auto-revert-verbose nil)
 
+(add-hook 'image-mode-hook #'auto-revert-mode)
+
 (defun t4/new-repo ()
     "Create new directory & repository"
     (interactive)

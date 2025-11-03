@@ -48,7 +48,16 @@
     (if face (message "(%s (:foreground monokaish-))" face) (message "No face at %d" pos))))
 
 (setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode)
+
+(defun t4/display-line-numbers--turn-on ()
+  "Turn on `display-line-numbers-mode'."
+  (unless (or (minibufferp) (derived-mode-p 'pdf-view-mode))
+    (display-line-numbers-mode)))
+
+(define-globalized-minor-mode t4/global-display-line-numbers-mode
+  display-line-numbers-mode t4/display-line-numbers--turn-on)
+
+(t4/global-display-line-numbers-mode)
 
 (use-package rainbow-delimiters
   :ensure t
