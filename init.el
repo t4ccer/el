@@ -61,7 +61,7 @@
   (local-set-key (kbd "C-c x p") 'xref-go-back))
 (defun t4/etags-c ()
   (interactive)
-  (shell-command "etags $(fd -ag '*.{c,h,cpp,hpp}')")
+  (shell-command "etags $(fd -ag '*.{c,h,cpp,hpp,cc,hh}')")
   (visit-tags-table "TAGS"))
 
 ;; Starts separate eshell each time, instead of reusing existing one
