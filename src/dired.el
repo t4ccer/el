@@ -56,11 +56,15 @@
 (t4/dired-to-logseq-collection t4/dired-to-logseq-book "books" "book" '("author" "book-title" "topics"))
 (t4/dired-to-logseq-collection t4/dired-to-logseq-paper "papers" "paper" '("author" "paper-title" "year" "doi" "topics"))
 
-(defun t4/is-video (fp) ""
-       (apply-macro
+(defun t4/is-video (filepath)
+  "Return t if FILEPATH is a video file"
+  (declare (ftype (function (string) boolean)))
+  (and
+   (not (file-directory-p filepath))
+   (apply-macro
         'or
-        (mapcar (lambda (ext) (s-suffix? ext fp t))
-                '("mp4" "m4v" "mkv" "avi" "mov"))))
+        (mapcar (lambda (ext) (s-suffix? ext filepath t))
+                '("mp4" "m4v" "mkv" "avi" "mov")))))
 
 (defun t4/dired-open () ""
     (interactive)
