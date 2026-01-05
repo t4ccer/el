@@ -68,6 +68,14 @@
   (interactive)
   (t4/compile-buffer "runhaskell -Wall -Wextra -fforce-recomp"))
 
+(defun t4/compile-nob ()
+  "Compile nob project"
+  (interactive)
+  (cond
+   ((file-exists-p "./nob") (compile "./nob"))
+   ((file-exists-p "./nob.c") (compile "cc -o nob nob.c"))
+   (t (user-error "Not a nob project"))))
+
 (setq compilation-max-output-line-length 1000000000000)
 
 ;; Keys
@@ -76,6 +84,7 @@
 (define-key t4/compilation-global-map (kbd "o") `t4/compile-org)
 (define-key t4/compilation-global-map (kbd "t") `t4/compile-tex)
 (define-key t4/compilation-global-map (kbd "r") `t4/compile-runhaskell)
+(define-key t4/compilation-global-map (kbd "n") `t4/compile-nob)
 
 
 (setq compilation-error-regexp-alist nil)
