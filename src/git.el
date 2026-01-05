@@ -4,6 +4,11 @@
   :ensure t
   :config
   (setq magit-diff-refine-hunk 'all))
+
+(use-package magit-pre-commit
+  :straight (:host github :repo "DamianB-BitFlipper/magit-pre-commit.el")
+  :after magit)
+
 ;; FIXME: Diff color theme is not respected 
 ;; (use-package magit-delta
 ;;   :ensure t
