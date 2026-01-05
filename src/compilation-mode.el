@@ -76,6 +76,15 @@
    ((file-exists-p "./nob.c") (compile "cc -o nob nob.c"))
    (t (user-error "Not a nob project"))))
 
+(defun t4/compile-guess ()
+  "Compile project"
+  (interactive)
+  (cond
+   ((file-exists-p "./Cargo.toml") (compile "cargo build"))
+   ((file-expand-wildcards "*.cabal") (compile "cabal build"))
+   ((string-equal (expand-file-name default-directory) "/home/t4ccer/repos/github/NixOS/nixpkgs/") (progn (setq compile-command "nix-build -A ") (call-interactively `compile)))
+   (t (user-error "Could not guess compilation command"))))
+
 (setq compilation-max-output-line-length 1000000000000)
 
 ;; Keys
@@ -85,6 +94,7 @@
 (define-key t4/compilation-global-map (kbd "t") `t4/compile-tex)
 (define-key t4/compilation-global-map (kbd "r") `t4/compile-runhaskell)
 (define-key t4/compilation-global-map (kbd "n") `t4/compile-nob)
+(define-key t4/compilation-global-map (kbd "a") `t4/compile-guess)
 
 
 (setq compilation-error-regexp-alist nil)
