@@ -17,7 +17,7 @@
 
 \\end{theorem}" nil)
                             ("example" "\\begin{example}
-?
+  ?
 \\end{example}" nil)
                             ("tikz" "\\begin{center}
 \\begin{tikzpicture}
@@ -30,6 +30,12 @@
                             ("frame" "\\begin{frame}\\frametitle{?}
 
 \\end{frame}" nil)
+                            ("problem" "\\begin{problem}[?]
+
+\\end{problem}" nil)
+                            ("solution" "\\begin{solution}
+  ?
+\\end{solution}" nil)
                             )))
 
 (use-package auctex
