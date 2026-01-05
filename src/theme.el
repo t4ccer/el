@@ -35,10 +35,7 @@
 
 ;;; Font
 (setq t4/font "FiraCode Nerd Font 10")
-(add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 10"))
-(set-frame-font t4/font nil t)
-(set-face-attribute 'default t :font t4/font)
-
+(set-face-attribute 'default nil :font "FiraCode Nerd Font 10" :height 90)
 
 ;; Get face under the cursor
 (defun what-face (pos)
