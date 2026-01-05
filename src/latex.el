@@ -49,13 +49,22 @@
   (setq tex-font-script-display (quote (-0.0 0.0)))
   (setq TeX-fold-mode nil)
   (setq TeX-source-correlate-mode t)
+  (setq TeX-parse-self t)
+  (setq TeX-parse-save t)
   (eval-after-load "tex-mode" '(fset 'tex-font-lock-suscript 'ignore))
   (eval-after-load "tex-mode" '(fset 'tex-font-lock-subcript 'ignore)))
+
+(eval-after-load "font-latex"
+  '(add-to-list 'font-latex-match-reference-keywords '("cref" "[{")))
+
+(defun t4/init-latex ()
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools") (output-pdf "Zathura")))
+  (TeX-add-symbols '("cref" TeX-arg-ref)))
 
 (setq font-latex-fontify-script nil)
 (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'LaTeX-mode-hook 'flymake-mode)
-(add-hook 'LaTeX-mode-hook (lambda () (setq TeX-view-program-selection '((output-pdf "PDF Tools") (output-pdf "Zathura")))))
+(add-hook 'LaTeX-mode-hook 't4/init-latex)
 
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
