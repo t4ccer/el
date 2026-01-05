@@ -72,3 +72,5 @@
 
 (use-package rainbow-mode
   :ensure t)
+
+(setq use-short-answers t)
