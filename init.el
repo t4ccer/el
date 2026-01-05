@@ -139,7 +139,6 @@
   :straight (:host github :repo "Ladicle/flymake-posframe")
   :hook (flymake-mode . flymake-posframe-mode))
 
-
 (use-package exec-path-from-shell
   :ensure t)
 
@@ -215,13 +214,6 @@
 (add-to-list 'auto-mode-alist '("\\.psql\\'" . sql-mode))
 
 (add-to-list 'auto-mode-alist '("\\.golden\\'" . compilation-mode))
-
-(use-package aiken-mode
-  :ensure t
-  :straight
-  ( :host github
-    :repo "aiken-lang/aiken-mode"
-    :branch "master"))
 
 (setq native-comp-async-report-warnings-errors nil)
 
