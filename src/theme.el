@@ -34,8 +34,7 @@
 (load-theme 'monokaish t)
 
 ;;; Font
-(setq t4/font "FiraCode Nerd Font 10")
-(set-face-attribute 'default nil :font "FiraCode Nerd Font 10" :height 90)
+(set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 100)
 
 ;; Get face under the cursor
 (defun what-face (pos)
