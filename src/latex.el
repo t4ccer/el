@@ -36,6 +36,22 @@
                             ("solution" "\\begin{solution}
   ?
 \\end{solution}" nil)
+                            ("lemma" "\\begin{lemma}
+  ?
+\\end{lemma}" nil)
+                            ("proposition" "\\begin{proposition}
+  ?
+\\end{proposition}" nil)
+                            ("proof" "\\begin{proof}
+  ?
+\\end{proof}" nil)
+                            ("proof iff" "\\begin{proof} \\hspace{0pt}
+  \\begin{itemize}
+    \\item [$(\\Rightarrow)$] ?
+    \\item [$(\\Leftarrow)$]\\qedhere
+  \\end{itemize}
+\\end{proof}
+" nil)
                             )))
 
 (use-package auctex
