@@ -7,4 +7,5 @@
   ;; to defer loading the package until required
   :commands (lean4-mode)
   :config
-  (add-hook 'lean4-mode-hook #'lsp-deferred))
+  (add-hook 'lean4-mode-hook #'lsp-deferred)
+  (define-key lean4-mode-map (kbd "C-c C-v") 'lean4-toggle-info))
