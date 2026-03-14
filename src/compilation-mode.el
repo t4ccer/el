@@ -83,6 +83,8 @@
    ((file-exists-p "./Cargo.toml") (compile "cargo build"))
    ((file-expand-wildcards "*.cabal") (compile "cabal build"))
    ((string-equal (expand-file-name default-directory) "/home/t4ccer/repos/github/NixOS/nixpkgs/") (progn (setq compile-command "nix-build -A ") (call-interactively `compile)))
+   ((file-exists-p "./lakefile.toml") (compile "lake build"))
+   ((file-exists-p "./lakefile.lean") (compile "lake build"))
    (t (user-error "Could not guess compilation command"))))
 
 (setq compilation-max-output-line-length 1000000000000)
