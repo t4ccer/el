@@ -250,6 +250,7 @@
 (t4/load-file "lambda-buffers.el")
 (t4/load-file "cmake.el")
 (t4/load-file "email.el")
+(t4/load-file "wgsl.el")
 
 ;; NOTE: Keep it at the end
 (t4/load-file "envrc.el")
